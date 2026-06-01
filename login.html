@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #b3d9ff 0%, #e0ecff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            color: #333;
+            padding: 15px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-header {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #0066cc;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+
+        .header-links a:hover {
+            color: #0066cc;
+        }
+
+       
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            margin-top: 60px;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .login-form-subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px;
+            transition: all 0.3s;
+            background-color: #fafafa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0066cc;
+            background-color: white;
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .lembrar-senha {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .lembrar-senha input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .lembrar-senha label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .esqueci-senha {
+            text-align: right;
+            margin-bottom: 25px;
+        }
+
+        .esqueci-senha a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .esqueci-senha a:hover {
+            color: #0052a3;
+            text-decoration: underline;
+        }
+
+        .btn-entrar {
+            width: 100%;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-entrar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4);
+        }
+
+        .btn-entrar:active {
+            transform: translateY(0);
+        }
+
+        .cadastro-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+            text-align: center;
+        }
+
+        .cadastro-section p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .btn-cadastro {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: white;
+            color: #0066cc;
+            border: 2px solid #0066cc;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cadastro:hover {
+            background-color: #f0f7ff;
+        }
+
+    
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #666;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 11px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+
+            .login-form h2 {
+                font-size: 20px;
+            }
+
+            .header-links {
+                gap: 10px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="header-container">
+            <div class="logo-header">
+                Login 
+            </div>
+            <div class="header-links">
+                <a href="Ajuda.html">Ajuda</a>
+                <a href="#acessibilidade">Acessibilidade</a>
+                <a href="#idioma">Português</a>
+            </div>
+        </div>
+    </header>
+
+    
+    <div class="login-container">
+        <form class="login-form">
+            <h2>Login</h2>
+            <p class="login-form-subtitle">Faça login com sua conta</p>
+
+            <div class="form-group">
+                <label for="cpf">CPF ou Email</label>
+                <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF ou email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+            </div>
+
+            <div class="lembrar-senha">
+                <input type="checkbox" id="lembrar" name="lembrar">
+                <label for="lembrar">Lembrar-me neste computador</label>
+            </div>
+
+            <div class="esqueci-senha">
+                <a href="recuperar.html">Esqueceu sua senha?</a>
+            </div>
+
+            <button type="submit" class="btn-entrar">Entrar</button>
+
+            <div class="cadastro-section">
+                <p>Não tem conta ainda?</p>
+                <button type="button" class="btn-cadastro" id="btnCadastro">
+                    Criar Conta
+                </button>
+            </div>
+        </form>
+    </div>
+
+    
+    <footer>
+        <div>
+            <a href="#privacidade">Política de Privacidade</a>
+            <a href="#termos">Termos de Uso</a>
+            <a href="#acessibilidade">Acessibilidade</a>
+            <a href="#contato">Contato</a>
+        </div>
+        <div style="margin-top: 12px;">
+            © 2026 Governo Federal do Brasil. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Redirecionar para página de cadastro
+        document.getElementById('btnCadastro').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'cadastro.html';
+        });
+
+        // Validar formulário de login
+        document.querySelector('.login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cpfOuEmail = document.getElementById('cpf').value.trim();
+            const senha = document.getElementById('senha').value;
+            
+            if (!cpfOuEmail || !senha) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Obter usuários do localStorage
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            
+            // Procurar usuário por CPF ou Email
+            const usuarioEncontrado = usuarios.find(user => 
+                user.cpf === cpfOuEmail || user.email === cpfOuEmail
+            );
+            
+            // Validar se usuário existe e senha está correta
+            if (!usuarioEncontrado) {
+                alert('❌ CPF/Email não encontrado! Faça o cadastro primeiro.');
+                return;
+            }
+            
+            if (usuarioEncontrado.senha !== senha) {
+                alert('❌ Senha incorreta! Tente novamente.');
+                return;
+            }
+            
+            // Login bem-sucedido
+            alert(`✓ Login com sucesso!\nBem-vindo, Aguarde, ${usuarioEncontrado.nome}!`);
+            
+            // Salvar informações do usuário logado (opcional)
+            localStorage.setItem('usuarioLogado', JSON.stringify({
+                nome: usuarioEncontrado.nome,
+                email: usuarioEncontrado.email,
+                cpf: usuarioEncontrado.cpf,
+                telefone: usuarioEncontrado.telefone
+            }));
+            
+            // Redirecionar para a página após 1.5 segundos
+            setTimeout(() => {
+                window.location.href = 'portal.html';
+            }, 1500);
+        });
+
+        // Botões de login alternativo
+        document.querySelectorAll('.btn-social').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tipo = this.textContent.includes('Certificado') ? 'Certificado Digital' : 'Biometria';
+                alert(`Login com ${tipo} não está disponível neste momento.`);
+            });
+        });
+    </script>
+</body>
+</html>

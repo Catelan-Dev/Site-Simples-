@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Usuário</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white !important;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-name {
+            font-size: 16px;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn-logout:hover {
+            background-color: #cc0000;
+        }
+
+       /* BANNER */
+        .banner {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .banner h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .banner p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        /* MENU LATERAL */
+        .sidebar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .menu-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0066cc;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background-color: #e8f0ff;
+            border-left-color: #0066cc;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background-color: #e8f0ff;
+            border-left-color: #0066cc;
+            color: #0066cc;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        .content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .secao {
+            display: none;
+        }
+
+        .secao.ativo {
+            display: block;
+        }
+
+        .titulo-secao {
+            font-size: 24px;
+            color: #0066cc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0066cc;
+        }
+
+        /* PERFIL */
+        .perfil-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-linha {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #0066cc;
+            width: 30%;
+        }
+
+        .info-valor {
+            color: #333;
+            width: 70%;
+        }
+
+        .info-linha:last-child {
+            border-bottom: none;
+        }
+
+        /* FORMULÁRIO DE EDIÇÃO */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* SERVIÇOS */
+        .grid-servicos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .servico-card {
+            background-color: #f0f0f0dc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .servico-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .servico-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .servico-titulo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .servico-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* BOTÕES */
+        .botoes-grupo {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #999;
+        }
+
+        .btn-danger {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+        }
+
+        /* MENSAGENS */
+        .mensagem {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .mensagem.sucesso {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .mensagem.erro {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-titulo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .modal-mensagem {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .modal-botoes {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-botoes button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-confirmar {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        .btn-confirmar:hover {
+            background-color: #cc0000;
+        }
+
+        .btn-cancelar {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #999;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <a href="Inicio.html" class="logo">📱 Meu Portal</a>
+            <div class="user-info">
+                <div class="user-name" id="nomeUsuario">Bem-vindo!</div>
+                <button class="btn-logout" id="btnLogout">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER -->
+    <div class="banner">    
+        <div class="banner-container">
+            <h1>Bem-vindo ao Portal do Usuário</h1>
+            <p>Acesse seus dados, serviços e muito mais em um só lugar!</p>
+        </div>
+    </div>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="container">
+        <!-- MENU LATERAL -->
+        <aside class="sidebar">
+            <div class="menu-title">Menu</div>
+            <div class="menu-item ativo" data-secao="perfil">👤 Meu Perfil</div>
+            <div class="menu-item" data-secao="editar">✏️ Editar Dados</div>
+            <div class="menu-item" data-secao="servicos">🔧 Serviços</div>
+            <div class="menu-item" data-secao="excluir">🗑️ Excluir Conta</div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="content">
+            <!-- SEÇÃO: PERFIL -->
+            <section class="secao ativo" id="perfil">
+                <h1 class="titulo-secao">Meu Perfil</h1>
+                <div id="mensagemPerfil" class="mensagem"></div>
+                
+                <div class="perfil-info">
+                    <div class="info-linha">
+                        <div class="info-label">Nome Completo:</div>
+                        <div class="info-valor" id="perfilNome">-</div>
+                    </div>
+                    <div class="info-linha">
+                        <div class="info-label">Email:</div>
+                        <div class="info-valor" id="perfilEmail">-</div>
+                    </div>
+                    <div class="info-linha">
+                        <div class="info-label">CPF:</div>
+                        <div class="info-valor" id="perfilCPF">-</div>
+                    </div>
+                    <div class="info-linha">
+                        <div class="info-label">Telefone:</div>
+                        <div class="info-valor" id="perfilTelefone">-</div>
+                    </div>
+                    <div class="info-linha">
+                        <div class="info-label">Data de Cadastro:</div>
+                        <div class="info-valor" id="perfilDataCadastro">-</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: EDITAR DADOS -->
+            <section class="secao" id="editar">
+                <h1 class="titulo-secao">Editar Dados Pessoais</h1>
+                <div id="mensagemEdicao" class="mensagem"></div>
+
+                <form id="formEdicao">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editNome">Nome Completo *</label>
+                            <input type="text" id="editNome" name="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCPF">CPF *</label>
+                            <input type="text" id="editCPF" name="cpf" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmail">Email *</label>
+                            <input type="email" id="editEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTelefone">Telefone *</label>
+                            <input type="tel" id="editTelefone" name="telefone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editSenha">Nova Senha (deixe em branco para não alterar)</label>
+                        <input type="password" id="editSenha" name="senha" placeholder="Mínimo 8 caracteres">
+                    </div>
+
+                    <div class="botoes-grupo">
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelarEdicao">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- SEÇÃO: SERVIÇOS -->
+            <section class="secao" id="servicos">
+                <h1 class="titulo-secao">Serviços Disponíveis</h1>
+                <p style="margin-bottom: 20px; color: #666;">Clique em um serviço para acessar:</p>
+                
+                <div class="grid-servicos">
+                    <div class="servico-card">
+                        <div class="servico-icon">📋</div>
+                        <div class="servico-titulo">Consultar CPF</div>
+                        <div class="servico-desc">Verificar informações cadastrais</div>
+                    </div>
+                    <div class="servico-card">
+                        <div class="servico-icon">💰</div>
+                        <div class="servico-titulo">Imposto de Renda</div>
+                        <div class="servico-desc">Consultar e entregar IR</div>
+                    </div>
+                    <div class="servico-card">
+                        <div class="servico-icon">📱</div>
+                        <div class="servico-titulo">Assinatura Digital</div>
+                        <div class="servico-desc">Assinar documentos digitalmente</div>
+                    </div>
+                    <div class="servico-card">
+                        <div class="servico-icon">🏠</div>
+                        <div class="servico-titulo">Auxílio Moradia</div>
+                        <div class="servico-desc">Consultar benefícios de moradia</div>
+                    </div>
+                    <div class="servico-card">
+                        <div class="servico-icon">🎓</div>
+                        <div class="servico-titulo">Educação</div>
+                        <div class="servico-desc">Programas e bolsas de estudo</div>
+                    </div>
+                    <div class="servico-card">
+                        <div class="servico-icon">🏥</div>
+                        <div class="servico-titulo">Saúde</div>
+                        <div class="servico-desc">Consultar dados de saúde</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: EXCLUIR CONTA -->
+            <section class="secao" id="excluir">
+                <h1 class="titulo-secao">Excluir Conta</h1>
+                <div style="background-color: #fff3cd; border-left: 4px solid #ff9800; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
+                    <strong style="color: #ff9800;">⚠️ ATENÇÃO!</strong>
+                    <p style="margin-top: 10px; color: #333; font-size: 14px;">
+                        Esta ação é <strong>irreversível</strong>. Ao excluir sua conta, todos os seus dados serão removidos permanentemente do sistema. Você não poderá recuperar essas informações após a exclusão.
+                    </p>
+                </div>
+
+                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
+                    <p style="margin-bottom: 15px; color: #666; font-size: 14px;">
+                        Se tem certeza de que deseja excluir sua conta, clique no botão abaixo:
+                    </p>
+                    <button class="btn btn-danger" id="btnExcluirConta">🗑️ Excluir Minha Conta</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO -->
+    <div id="modalExcluir" class="modal">
+        <div class="modal-content">
+            <div class="modal-titulo">Confirmar Exclusão de Conta</div>
+            <div class="modal-mensagem">
+                Tem certeza que deseja excluir sua conta? Esta ação é irreversível e todos os seus dados serão perdidos.
+            </div>
+            <div class="modal-botoes">
+                <button class="btn-cancelar" id="btnCancelarModal">Cancelar</button>
+                <button class="btn-confirmar" id="btnConfirmarExclusao">Excluir Conta</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carregar dados do usuário ao abrir a página
+        function carregarDados() {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            
+            if (!usuarioLogado) {
+                alert('Você precisa fazer login primeiro!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Preencher nome no header
+            document.getElementById('nomeUsuario').textContent = `Bem-vindo, ${usuarioLogado.nome}!`;
+
+            // Preencher perfil
+            document.getElementById('perfilNome').textContent = usuarioLogado.nome;
+            document.getElementById('perfilEmail').textContent = usuarioLogado.email;
+            document.getElementById('perfilCPF').textContent = usuarioLogado.cpf;
+            document.getElementById('perfilTelefone').textContent = usuarioLogado.telefone || 'Não informado';
+            document.getElementById('perfilDataCadastro').textContent = new Date().toLocaleDateString('pt-BR');
+
+            // Preencher formulário de edição
+            document.getElementById('editNome').value = usuarioLogado.nome;
+            document.getElementById('editEmail').value = usuarioLogado.email;
+            document.getElementById('editCPF').value = usuarioLogado.cpf;
+            document.getElementById('editTelefone').value = usuarioLogado.telefone || '';
+        }
+
+        // Menu lateral - Trocar seções
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const secaoId = this.getAttribute('data-secao');
+                
+                // Remover ativo de todos os itens e seções
+                document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('ativo'));
+                document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativo'));
+                
+                // Adicionar ativo ao item clicado e sua seção
+                this.classList.add('ativo');
+                document.getElementById(secaoId).classList.add('ativo');
+            });
+        });
+
+        // Salvar edições
+        document.getElementById('formEdicao').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            const novoNome = document.getElementById('editNome').value.trim();
+            const novoEmail = document.getElementById('editEmail').value.trim();
+            const novoTelefone = document.getElementById('editTelefone').value.trim();
+            const novaSenha = document.getElementById('editSenha').value;
+
+            if (!novoNome || !novoEmail || !novoTelefone) {
+                mostrarMensagem('mensagemEdicao', 'Preencha todos os campos obrigatórios!', 'erro');
+                return;
+            }
+
+            // Validar email
+            if (!validarEmail(novoEmail)) {
+                mostrarMensagem('mensagemEdicao', 'Email inválido!', 'erro');
+                return;
+            }
+
+            // Validar nova senha se foi preenchida
+            if (novaSenha && novaSenha.length < 8) {
+                mostrarMensagem('mensagemEdicao', 'A senha deve ter no mínimo 8 caracteres!', 'erro');
+                return;
+            }
+
+            // Encontrar e atualizar usuário
+            const indice = usuarios.findIndex(u => u.cpf === usuarioLogado.cpf);
+            if (indice !== -1) {
+                // Garantir que o objeto usuario tenha todos os campos
+                usuarios[indice].nome = novoNome;
+                usuarios[indice].email = novoEmail;
+                usuarios[indice].telefone = novoTelefone;
+                if (novaSenha) {
+                    usuarios[indice].senha = novaSenha;
+                }
+
+                // Salvar array de usuários
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+                // Atualizar usuário logado
+                usuarioLogado.nome = novoNome;
+                usuarioLogado.email = novoEmail;
+                usuarioLogado.telefone = novoTelefone;
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+
+                mostrarMensagem('mensagemEdicao', '✓ Dados atualizados com sucesso!', 'sucesso');
+
+                // Recarregar dados
+                setTimeout(() => {
+                    carregarDados();
+                    document.querySelector('[data-secao="perfil"]').click();
+                }, 1500);
+            } else {
+                mostrarMensagem('mensagemEdicao', 'Erro ao encontrar usuário. Faça login novamente.', 'erro');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }
+        });
+
+        // Cancelar edição
+        document.getElementById('btnCancelarEdicao').addEventListener('click', function() {
+            document.querySelector('[data-secao="perfil"]').click();
+        });
+
+        // Botão Logout
+        document.getElementById('btnLogout').addEventListener('click', function() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('usuarioLogado');
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Excluir conta
+        document.getElementById('btnExcluirConta').addEventListener('click', function() {
+            document.getElementById('modalExcluir').style.display = 'block';
+        });
+
+        document.getElementById('btnCancelarModal').addEventListener('click', function() {
+            document.getElementById('modalExcluir').style.display = 'none';
+        });
+
+        document.getElementById('btnConfirmarExclusao').addEventListener('click', function() {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            // Remover usuário
+            usuarios = usuarios.filter(u => u.cpf !== usuarioLogado.cpf);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            localStorage.removeItem('usuarioLogado');
+
+            alert('✓ Conta excluída com sucesso!');
+            window.location.href = 'login.html';
+        });
+
+        // Função auxiliar para validar email
+        function validarEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        // Função para mostrar mensagens
+        function mostrarMensagem(elementoId, mensagem, tipo) {
+            const elemento = document.getElementById(elementoId);
+            elemento.textContent = mensagem;
+            elemento.className = 'mensagem ' + tipo;
+            
+            setTimeout(() => {
+                elemento.className = 'mensagem';
+                elemento.textContent = '';
+            }, 3000);
+        }
+
+        // Carregar dados ao iniciar
+        carregarDados();
+    </script>
+</body>
+</html>
+    <style>
+    
+        /* FOOTER */
+        footer {
+            background-color: #001133;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #6fa8dc;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #6fa8dc;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+
+
+            nav ul {
+                flex-wrap: wrap;
+            }
+
+            .banner h1 {
+                font-size: 24px;
+            }
+
+            .titulo-secao {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-top-left {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav a {
+                padding: 12px 20px;
+            }
+
+            .grid-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER SUPERIOR -->
+    <div class="header-top">
+        <div class="header-top-content">
+            <div class="header-top-left">
+               
+                <a href="Ajuda.html" style="color: white;">Ajuda</a>
+                <a href="#contato" style="color: white;">Contato</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CENTRAL DE AJUDA</h3>
+                    <ul>
+                        <li><a href="Inicio.html">Página Inicial</a></li>
+                        <li><a href="Ajuda.html">Entre em contato</a></li>
+                        <li><a href="#suporte">Suporte Técnico</a></li>
+                        <li><a href="#feedback">Enviar Feedback</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>REDES SOCIAIS</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/catelanzzx_/">Instagram</a></li>
+                        <li><a href="#linkedin">LinkedIn</a></li>
+                        <li><a href="https://wa.me/5567996694476">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Governo Federal do Brasil | Portal do Usuário</p>
+                <p style="margin-top: 10px; font-size: 11px;">Conteúdo publicado sob licença, Não divulgar assuntos do site</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                console.log('Navegando para:', this.textContent);
+            });
+        });
+    </script>
+</body>
+</html>
