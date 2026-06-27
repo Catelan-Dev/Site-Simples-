@@ -96,6 +96,55 @@
             color: white;
         }
 
+        /* ESTILO DA LISTA */
+        .Servico ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .Servico li {
+            padding: 12px 0;
+            padding-left: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .Servico li:last-child {
+            border-bottom: none;
+        }
+
+        .Servico li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 40px;
+            border-radius: 5px;
+            margin: 0 -10px;
+            padding-left: 40px;
+        }
+
+        .Servico li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #fffb00;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* ESTILO DO TEXTO DESCRITIVO */
+        .Servico p {
+            font-size: 16px;
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+            text-align: justify;
+            margin-top: 15px;
+            padding: 15px 0;
+            border-left: 4px solid #fffb00;
+            padding-left: 15px;
+            opacity: 0.95;
+        }
+
     </style>
 </head>
 <body>
@@ -115,28 +164,26 @@
         <h2>Nossos Serviços</h2>
         <p>Nossos serviços disponíveis no site...</p>
         
+        <div class="Servico" style="margin-top: 30px; padding: 30px; background: #0066cc; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <h3>📈 Praticidade</h3>
+            <p> Nossa plataforma foi desenvolvida para oferecer praticidade e agilidade no acesso aos serviços digitais. Com poucos cliques, é possível realizar consultas, solicitações e acompanhar informações importantes de forma simples, rápida e segura, tudo em um único lugar.</p>
+        </div>
+
         <div class="Servico" style="margin-top: 60px; padding: 30px; background: #0066cc; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <h3>📊 Serviço 1</h3>
-            <p>Descrição do seu serviço aqui. Você pode adicionar quantas seções quiser para rolar.</p>
+            <h3>📊 Serviços disponíveis</h3>
+            <ul>
+                <li>Consultar CPF</li>
+                <li>Imposto de Renda</li>
+                <li>Assinatura Digital</li>
+                <li>Auxílio Moradia</li>
+                <li>Educação</li>
+                <li>Saúde</li>
+            </ul>
         </div>
-
-        <div class="Servico" style="margin-top: 30px; padding: 30px; background: #0066cc; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <h3>📈 Serviço 2</h3>
-            <p>Mais informações sobre seus serviços. O conteúdo vai ocupar mais espaço.</p>
-        </div>
-
-        <div class="Servico" style="margin-top: 30px; padding: 30px; background: #0066cc; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <h3>🔐 Serviço 3</h3>
-            <p>Continue adicionando conteúdo para ter mais altura na página.</p>
-        </div>
-
-        <div class="Servico" style="margin-top: 30px; padding: 30px; background: #0066cc; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 100px;">
-            <h3>🎯 Serviço 4</h3>
-            <p>Agora você deve conseguir rolar para ver todo o conteúdo!</p>
-        </div>
-    </div>
 
 </body>
+    
+
     
 
     
